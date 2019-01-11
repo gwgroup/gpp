@@ -9,7 +9,7 @@ router.use(function (req, res, next) {
   if (openUrls.indexOf(req.originalUrl) != -1) {
     return next();
   }
-  //next(new BusinessError(9000, 'jjss'));
+  next(new BusinessError(9000, ''));
   //1.用户是否持有token，没有提示无权限访问，请登录 return
   //2.判断用户持有的token是否过期，如果过期，请登录 return
   //3.给req赋值user数据
