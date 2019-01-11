@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var BusinessError = require('../../utils/index').BusinessError;
-var openUrls = ['/api/user/login', '/api/user/reset'];
+var openUrls = ['/api/user/login','/api/user/regedit','/api/user/reset'];
 var config = require('../../config');
 var strings = config.strings;
 var codes = config.codes;

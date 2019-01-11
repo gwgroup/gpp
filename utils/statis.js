@@ -46,5 +46,5 @@ var systemInfo = function () {
 };
 
 module.exports = {v8,os,getDataVersionTag: v8.cachedDataVersionTag, getHeapStatistics: v8.getHeapStatistics, getHeapSpaceStatistics: v8.getHeapSpaceStatistics, systemInfo };
- let info=systemInfo();
- console.log(info);
+//  let info=systemInfo();
+//  console.log(info);
