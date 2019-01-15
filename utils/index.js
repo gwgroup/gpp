@@ -53,7 +53,7 @@ function generateUUID() {
  * 生成TOKEN CODE
  */
 var generateTokenCode = function () {
-    return generateUUID();
+    return generateUUID().replace(/\-/g, '');
 };
 
 /**

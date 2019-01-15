@@ -1,3 +1,4 @@
+let STRINGS = require('../config').strings;
 /**
  * 业务异常类
  */
@@ -13,6 +14,9 @@ class BusinessError extends Error {
   }
   toJsonString() {
     return JSON.stringify({ code: this.code, message: this.message });
+  }
+  static create(errorCode) {
+    return new BusinessError(errorCode, STRINGS[errorCode]);
   }
 }
 module.exports = BusinessError;
