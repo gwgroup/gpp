@@ -5,6 +5,7 @@ var openUrls = ['/api/user/login', '/api/user/regedit', '/api/user/reset'];
 var config = require('../../config');
 var CODES = config.codes;
 var tokenService = require('../../services/token');
+var userRouter = require('./user');
 router.use(function (req, res, next) {
   if (openUrls.indexOf(req.originalUrl) != -1) {
     return next();
@@ -35,6 +36,8 @@ router.use(function (req, res, next) {
   }
 });
 
+router.use('/user', userRouter);
+
 router.use(function (err, req, res, next) {
   if (err instanceof BusinessError) {
     return res.send(err.toJsonString());
@@ -42,4 +45,5 @@ router.use(function (err, req, res, next) {
   console.error(err);
   res.status(500).send(JSON.stringify({ message: strings.serverError, code: err.code | CODES.serverError }));
 });
+
 module.exports = router;

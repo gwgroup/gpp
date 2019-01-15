@@ -17,7 +17,3 @@ var query = function (sql, params, callback) {
     });
 };
 module.exports = { pool, query, mysql };
-
-query('select * from gpp.pt_user',[],(err,result)=>{
-    console.log(err,result);
-})

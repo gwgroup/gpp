@@ -5,7 +5,8 @@ var BusinessError = require('./business-error'),
     Stream = require('stream'),
     crypto = require('crypto'),
     Redis = require('./redis'),
-    MysqlHelper = require('./mysql-helper');
+    MysqlHelper = require('./mysql-helper'),
+    Email = require('./email');
 
 /**
  * 生成验证码
@@ -139,6 +140,6 @@ function parseHtmlToText(html) {
     return root.text;
 }
 
-module.exports = { BusinessError, Statis, Redis, MysqlHelper, generateValiCode, getClientIp, generateTokenCode, getSha256CodeWith20, generateUUID, downloadFileWithBase64, dateFormat, dateFormatWithUTC, parseHtmlToText };
+module.exports = { BusinessError, Statis, Redis, MysqlHelper, generateValiCode, getClientIp, generateTokenCode, getSha256CodeWith20, generateUUID, downloadFileWithBase64, dateFormat, dateFormatWithUTC, parseHtmlToText, Email };
 
 //1.console.log(getSha256CodeWith20('123456'));
