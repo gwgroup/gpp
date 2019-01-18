@@ -6,11 +6,11 @@ var util = require('../utils'),
     async = require('async');
 /**
  * 登录
- * @param {Object} params mobile,password
+ * @param {Object} params username,password
  * @param {Function} cb 回调函数 返回token
  */
-var login = function ({ mobile, password }, cb) {
-    if (!mobile || !password) {
+var login = function ({ username, password }, cb) {
+    if (!username || !password) {
         return cb(BusinessError.create(config.codes.paramsError));
     }
     MysqlHelper.query(`
@@ -22,10 +22,11 @@ var login = function ({ mobile, password }, cb) {
         \`account_money\`,
         \`create_time\`,
         \`update_time\`
-    FROM
+    FROM (\`mobile\`=? OR \`email\`=?) AND \`password\`=?
         \`gpp\`.\`pt_user\`
+    WHERE 
     LIMIT 0, 1;
-    `, [mobile, util.getSha256CodeWith20(password)], (err, result) => {
+    `, [username,username, util.getSha256CodeWith20(password)], (err, result) => {
             if (err) {
                 return cb(err);
             }
