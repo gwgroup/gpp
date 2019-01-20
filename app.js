@@ -29,7 +29,7 @@ logger.token('remote-addr', function (req) {
   }
   return ip;
 });
-app.use(logger('[:date[default]] :remote-addr :remote-user :method :url HTTP/:http-version :status :res[content-length] - :response-time ms'));
+app.use(logger('[:date[default]] :remote-addr :method :url HTTP/:http-version :status :res[content-length] - :response-time ms'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
