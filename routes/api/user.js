@@ -64,4 +64,28 @@ router.post('/regedit_with_email', function (req, res, next) {
         res.send(JSON.stringify({ code: 1000 }));
     });
 });
+
+/**
+ * 重置邮箱账户密码
+ */
+router.post('/reset_email_account_password', function (req, res, next) {
+    userService.resetEmailAccountPassword(req.body, (err, result) => {
+        if (err) {
+            return next(err);
+        }
+        res.send(JSON.stringify({ code: 1000 }));
+    });
+});
+
+/**
+ * 重置手机账户密码
+ */
+router.post('/reset_mobile_account_password', function (req, res, next) {
+    userService.resetMobileAccountPassword(req.body, (err, result) => {
+        if (err) {
+            return next(err);
+        }
+        res.send(JSON.stringify({ code: 1000 }));
+    });
+});
 module.exports = router;
