@@ -213,6 +213,26 @@ var sendValiEmail = function ({ email, ip }, cb) {
         ], cb
     );
 };
+/**
+ * 重置密码(邮箱账户)
+ * @param {Object} params 
+ * @param {Function} cb 
+ */
+var resetEmailAccountPassword=function({email,vali_code},cb){
+    //1.检查验证码
+    //2.检查用户名
+};
+
+/**
+ * 重置密码(手机账户)
+ * @param {Object} params 
+ * @param {Function} cb 
+ */
+var resetMobileAccountPassword=function({mobile,vali_code},cb){
+    //1.检查验证码
+    //2.检查用户名
+};
+
 
 module.exports = { login, regeditWithMobile, regeditWithEmail, sendValiSMS, sendValiEmail };
 // sendValiEmail({ email: 'newbreach@live.cn', ip: '203.94.45.68' }, (err, result) => {
