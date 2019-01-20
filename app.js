@@ -11,8 +11,14 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
-app.use(logger('[:date[web]] :remote-addr :remote-user :method :url HTTP/:http-version :status :res[content-length] - :response-time ms'));
+logger.token('date', function getDateToken (req, res, format) {
+  var date = new Date();
+  switch (format || 'default') {
+      case 'default':
+      return date.toLocaleString();
+  }
+});
+app.use(logger('[:date[default]] :remote-addr :remote-user :method :url HTTP/:http-version :status :res[content-length] - :response-time ms'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
