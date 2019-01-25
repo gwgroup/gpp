@@ -41,4 +41,13 @@ var get = function (key, cb) {
     client.get(key, cb);
 };
 
-module.exports = { set, flushExpire, get, client };
+/**
+ * INCR
+ * @param {String} key 
+ * @param {Number} increment 
+ * @param {Function} cb 
+ */
+var incr = function (key, cb) {
+    client.incrby(key, 1, cb);
+};
+module.exports = { set, flushExpire, get, client, incr };

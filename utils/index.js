@@ -140,6 +140,19 @@ function parseHtmlToText(html) {
     return root.text;
 }
 
-module.exports = { BusinessError, Statis, Redis, MysqlHelper, generateValiCode, getClientIp, generateTokenCode, getSha256CodeWith20, generateUUID, downloadFileWithBase64, dateFormat, dateFormatWithUTC, parseHtmlToText, Email };
+/**
+ * 补位字符方法
+ * @param {Number} num 数字
+ * @param {Number} n 长度
+ * @param {String} char 补位的字符,默认'0'
+ */
+function PrefixInteger(num, n, char = '0') {
+    return (Array(n).join(char) + num).slice(-n);
+}
 
-//1.console.log(getSha256CodeWith20('123456'));
+module.exports = { BusinessError, Statis, Redis, MysqlHelper, generateValiCode, getClientIp, generateTokenCode, getSha256CodeWith20, generateUUID, downloadFileWithBase64, dateFormat, dateFormatWithUTC, parseHtmlToText, Email, PrefixInteger };
+
+// //1.console.log(getSha256CodeWith20('123456'));
+// generateBatchNo((err, value) => {
+//     console.log(err, value);
+// });
