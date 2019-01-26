@@ -5,7 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var apiRouter = require('./routes/api');
 var app = express();
-
+var init = require('./init');
+//初始化批次单号
+init.redisBatchNo();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

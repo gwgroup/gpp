@@ -1,6 +1,6 @@
 var util = require('../utils/index'),
     redisClient = util.Redis;
-const BATCH_NO_KEY = 'rh_red_packet_batch_no';
+const BATCH_NO_KEY = require('../config').redis_keys.BATCH_NO_KEY;
 /**
  * 生成批次单号
  * @param {String} user_id 用户ID
@@ -11,10 +11,12 @@ function generateBatchNo(user_id,cb) {
         if (err) {
             return cb(err);
         }
-        cb(undefined, 'RH' + util.PrefixInteger(result, 6));
+        cb(undefined,result);
     });
 }
+
 module.exports = { generateBatchNo };
-// generateBatchNo((err,val)=>{
+
+// generateBatchNo('f8316388-1562-11e9-ab14-d663bd873d93',(err,val)=>{
 //     console.log(err,val);
 // });
