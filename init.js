@@ -13,7 +13,7 @@ function redisBatchNo() {
     MAX(\`batch_no\`) batch_no,
     \`user_id\`
     from
-    \`gpp\`.\`pp_red_packet\`
+    \`gpp\`.\`pp_red_packet_card\`
     GROUP BY user_id
     UNION ALL
     SELECT
@@ -21,7 +21,7 @@ function redisBatchNo() {
     MAX(\`batch_no\`) batch_no,
     \`user_id\`
     FROM
-    \`gpp\`.\`pp_gift\`
+    \`gpp\`.\`pp_gift_card\`
     GROUP BY user_id;
     `,
     [],

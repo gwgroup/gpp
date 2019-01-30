@@ -108,7 +108,7 @@ function generateRedPacketCards({ red_packet_id, moneys }, user_id, cb) {
                 }, (batchNo, cb) => {
                     //6.生成sql(红包明细,花费记录,修改账户余额)
                     //6.1 红包明细
-                    let rpsql = __generateRedPacketDetail(red_packet_id, moneys, batchNo);
+                    let rpsql = __generateRedPacketDetail(red_packet_id, moneys, batchNo,user_id);
                     //6.2 花费明细
                     let costsql = util.MysqlHelper.mysql.format(`
                     INSERT INTO \`gpp\`.\`pt_cost\` (\`id\`,\`money\`,\`user_id\`,\`account_money\`,\`type\`,\`total_count\`,\`remark\`)
@@ -150,19 +150,22 @@ function generateRedPacketCards({ red_packet_id, moneys }, user_id, cb) {
  * @param {*} red_packet_id 
  * @param {*} moneys 
  * @param {*} batchNo 
+ * @param {String} user_id
  */
-function __generateRedPacketDetail(red_packet_id, moneys, batchNo) {
+function __generateRedPacketDetail(red_packet_id, moneys, batchNo,user_id) {
     let result = [];
     moneys.forEach(element => {
-        result.push(`('${util.generateUUID()}','${red_packet_id}',${element},'${batchNo}')`);
+        result.push(`('${util.generateUUID()}','${red_packet_id}',${element},'${batchNo}','${user_id}')`);
     });
     return `INSERT INTO \`gpp\`.\`pp_red_packet_card\` (
         \`id\`,
         \`red_packet_id\`,
         \`money\`,
-        \`batch_no\`
+        \`batch_no\`,
+        \`user_id\`
       ) values ${result.join(',')};`;
 }
+
 
 // function __generateRandomFullMoney(min = 1, max, total, count) {
 //     var result = [];
