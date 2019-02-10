@@ -146,7 +146,7 @@ function generateRedPacketCards({ red_packet_id, moneys }, user_id, cb) {
 }
 
 /**
- * 
+ * 红包卡批量SQL
  * @param {*} red_packet_id 
  * @param {*} moneys 
  * @param {*} batchNo 
