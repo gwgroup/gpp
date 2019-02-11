@@ -26,6 +26,18 @@ router.post('/get_actives', function (req, res, next) {
 });
 
 /**
+ * 获取红包卡详情列表
+ */
+router.post('/load_cards', function (req, res, next) {
+    redPacketService.loadCards(req.body, (err, result) => {
+        if (err) {
+            return next(err);
+        }
+        res.send(JSON.stringify({ code: 1000, data: result }));
+    });
+});
+
+/**
  * 生成红包卡
  */
 router.post('/generate_cards', function (req, res, next) {

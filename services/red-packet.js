@@ -108,7 +108,7 @@ function generateRedPacketCards({ red_packet_id, moneys }, user_id, cb) {
                 }, (batchNo, cb) => {
                     //6.生成sql(红包明细,花费记录,修改账户余额)
                     //6.1 红包明细
-                    let rpsql = __generateRedPacketDetail(red_packet_id, moneys, batchNo,user_id);
+                    let rpsql = __generateRedPacketDetail(red_packet_id, moneys, batchNo, user_id);
                     //6.2 花费明细
                     let costsql = util.MysqlHelper.mysql.format(`
                     INSERT INTO \`gpp\`.\`pt_cost\` (\`id\`,\`money\`,\`user_id\`,\`account_money\`,\`type\`,\`total_count\`,\`remark\`)
@@ -152,7 +152,7 @@ function generateRedPacketCards({ red_packet_id, moneys }, user_id, cb) {
  * @param {*} batchNo 
  * @param {String} user_id
  */
-function __generateRedPacketDetail(red_packet_id, moneys, batchNo,user_id) {
+function __generateRedPacketDetail(red_packet_id, moneys, batchNo, user_id) {
     let result = [];
     moneys.forEach(element => {
         result.push(`('${util.generateUUID()}','${red_packet_id}',${element},'${batchNo}','${user_id}')`);
@@ -172,7 +172,7 @@ function __generateRedPacketDetail(red_packet_id, moneys, batchNo,user_id) {
  * @param {String} user_id 
  * @param {Function} cb 
  */
-function activesList({query,page_index,page_size,sort_by,descending},user_id,cb){
+function activesList({ query, page_index, page_size, sort_by, descending }, user_id, cb) {
     let params = [];
     let tj = `WHERE 0=0 `;
     if (query) {
@@ -183,7 +183,7 @@ function activesList({query,page_index,page_size,sort_by,descending},user_id,cb)
         tj += `and a.user_id = ? `;
         params.push(user_id);
     }
-   
+
     let countSql = util.MysqlHelper.mysql.format(`SELECT count(*) totalcount FROM \`gpp\`.\`pp_red_packet\` a ${tj};`, params);
     let orderBy = `a.${sort_by ? sort_by : 'create_time'}`;
     let descStr = `${sort_by ? (descending ? 'desc' : 'asc') : 'desc'}`;
@@ -205,6 +205,30 @@ function activesList({query,page_index,page_size,sort_by,descending},user_id,cb)
         }
         cb(undefined, { totalCount: results[0][0]['totalcount'], rows: results[1] });
     });
+}
+
+/**
+ * 加载红包卡
+ * @param {Object} params
+ * @param {Function} cb 
+ */
+function loadCards({ id }, cb) {
+    util.MysqlHelper.query(`
+    select
+        *
+    from
+        \`gpp\`.\`pp_red_packet_card\`
+    where \`red_packet_id\`=? 
+    order by \`create_time\`;
+    `,
+        [id],
+        (err, result) => {
+            if (err) {
+                return cb(err);
+            }
+            cb(undefined, result);
+        }
+    );
 }
 
 
@@ -235,8 +259,11 @@ function activesList({query,page_index,page_size,sort_by,descending},user_id,cb)
 //     return result;
 // }
 
-module.exports = { createRedPacketActive, generateRedPacketCards,activesList };
+module.exports = { createRedPacketActive, generateRedPacketCards, activesList, loadCards };
 
 // activesList({query:'',page_index:1,page_size:10},undefined,(err,result)=>{
 //     console.log(err,result);
+// });
+// loadCards({ id: '4c77549f-077e-4fd9-8ed8-43be12717e83' }, (err, result) => {
+//     console.log(err, result);
 // });
