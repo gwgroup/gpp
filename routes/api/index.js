@@ -43,7 +43,7 @@ router.use(function (err, req, res, next) {
     return res.send(err.toJsonString());
   }
   console.error(err);
-  res.status(500).send(JSON.stringify({ message: strings.serverError, code: err.code | CODES.serverError }));
+  res.status(500).send(JSON.stringify({ message: CODES.serverError[1], code: err.code | CODES.serverError[0] }));
 });
 
 module.exports = router;
