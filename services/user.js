@@ -17,7 +17,7 @@ var login = function ({ username, password }, cb) {
     MysqlHelper.query(`
     SELECT
         \`id\`,
-        \`diplay_name\`,
+        \`display_name\`,
         \`mobile\`,
         \`email\`,
         \`account_money\`,
