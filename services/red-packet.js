@@ -166,6 +166,47 @@ function __generateRedPacketDetail(red_packet_id, moneys, batchNo,user_id) {
       ) values ${result.join(',')};`;
 }
 
+/**
+ * 分页查询红包活动
+ * @param {Object} params 
+ * @param {String} user_id 
+ * @param {Function} cb 
+ */
+function activesList({query,page_index,page_size,sort_by,descending},user_id,cb){
+    let params = [];
+    let tj = `WHERE 0=0 `;
+    if (query) {
+        tj += `and a.act_name like ? `;
+        params.push(`%${query}%`);
+    }
+    if (user_id) {
+        tj += `and a.user_id = ? `;
+        params.push(user_id);
+    }
+   
+    let countSql = util.MysqlHelper.mysql.format(`SELECT count(*) totalcount FROM \`gpp\`.\`pp_red_packet\` a ${tj};`, params);
+    let orderBy = `a.${sort_by ? sort_by : 'create_time'}`;
+    let descStr = `${sort_by ? (descending ? 'desc' : 'asc') : 'desc'}`;
+    let page = parseInt((page_index - 1) * page_size);
+    let pageSize = parseInt(page_size);
+    let pg = `ORDER BY ${util.MysqlHelper.mysql.escapeId(orderBy)} ${descStr} LIMIT ${page},${pageSize}`;
+    let dataSql = util.MysqlHelper.mysql.format(`
+    SELECT a.*,IFNULL(b.count,0) total_count,IFNULL(c.count,0) used_count,IFNULL(b.money,0) total_money,IFNULL(c.money,0) used_money
+    FROM \`gpp\`.\`pp_red_packet\` a 
+    LEFT JOIN (select sum(1) \`count\`,sum(money) \`money\`,red_packet_id from \`pp_red_packet_card\` group by red_packet_id) b
+    ON a.id=b.red_packet_id
+    LEFT JOIN (SELECT SUM(1) \`count\`,SUM(money) \`money\`,red_packet_id FROM \`pp_red_packet_card\` WHERE \`used\`=1 GROUP BY red_packet_id) c
+    ON a.id=c.red_packet_id
+    ${tj} ${pg};
+    `, params);
+    util.MysqlHelper.query(`${countSql}${dataSql}`, [], (err, results) => {
+        if (err) {
+            return cb(err);
+        }
+        cb(undefined, { totalCount: results[0][0]['totalcount'], rows: results[1] });
+    });
+}
+
 
 // function __generateRandomFullMoney(min = 1, max, total, count) {
 //     var result = [];
@@ -194,4 +235,8 @@ function __generateRedPacketDetail(red_packet_id, moneys, batchNo,user_id) {
 //     return result;
 // }
 
-module.exports = { createRedPacketActive, generateRedPacketCards };
+module.exports = { createRedPacketActive, generateRedPacketCards,activesList };
+
+// activesList({query:'',page_index:1,page_size:10},undefined,(err,result)=>{
+//     console.log(err,result);
+// });

@@ -13,6 +13,17 @@ router.post('/create_active', function (req, res, next) {
         res.send(JSON.stringify({ code: 1000 }));
     });
 });
+/**
+ * 获取红包活动
+ */
+router.post('/get_actives', function (req, res, next) {
+    redPacketService.activesList(req.body, req.token.user_id, (err, result) => {
+        if (err) {
+            return next(err);
+        }
+        res.send(JSON.stringify({ code: 1000, data: result }));
+    });
+});
 
 /**
  * 生成红包卡
