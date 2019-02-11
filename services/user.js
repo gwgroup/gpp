@@ -23,9 +23,9 @@ var login = function ({ username, password }, cb) {
         \`account_money\`,
         \`create_time\`,
         \`update_time\`
-    FROM (\`mobile\`=? OR \`email\`=?) AND \`password\`=?
+    FROM 
         \`gpp\`.\`pt_user\`
-    WHERE 
+    WHERE (\`mobile\`=? OR \`email\`=?) AND \`password\`=?
     LIMIT 0, 1;
     `, [username, username, util.getSha256CodeWith20(password)], (err, result) => {
             if (err) {
