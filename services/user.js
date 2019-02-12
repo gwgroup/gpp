@@ -4,7 +4,7 @@ var util = require('../utils'),
     config = require('../config'),
     tokenService = require('./token'),
     async = require('async');
-    
+
 /**
  * 登录
  * @param {Object} params username,password
@@ -164,6 +164,7 @@ var regeditWithEmail = function ({ email, vali_code, password, display_name }, c
  * @param {Function} cb 
  */
 var sendValiSMS = function ({ mobile, ip }, cb) {
+    let code = util.generateValiCode(10, 6);
     async.waterfall(
         [
             (cb) => {
@@ -176,11 +177,15 @@ var sendValiSMS = function ({ mobile, ip }, cb) {
                 if (result.length > 0) {
                     return cb(BusinessError.create(config.codes.smsTooMany));
                 }
-                let code = util.generateValiCode(10, 6);
                 MysqlHelper.query('insert into `gpp`.`pt_verify_code` (`mobile`,`code`,`ip`) values (?,?,?);', [mobile, code, ip], cb);
             }, (result, fields, cb) => {
                 //3.发送短信
-                cb(undefined);
+                util.SMS.sendSMS(mobile, util.SMS.TEMPLATES.VALI_CODE, { code: code }, (err, res) => {
+                    if (err) {
+                        return cb(err);
+                    }
+                    cb(undefined);
+                });
             }
         ], cb
     );
