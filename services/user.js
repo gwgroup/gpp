@@ -62,7 +62,7 @@ var regeditWithMobile = function ({ mobile, vali_code, password, display_name },
                 `, [mobile, vali_code], cb);
             },
             (result, fields, cb) => {
-                if (result[0]) {
+                if (!result[0]) {
                     //1.1.验证码不存在
                     return cb(BusinessError.create(config.codes.valiCodeNotExist));
                 }
