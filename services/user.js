@@ -274,18 +274,18 @@ var resetEmailAccountPassword = function ({ email, vali_code, password }, cb) {
                             return cb(BusinessError.create(config.codes.equalPassword));
                         }
                         cb(undefined, user.id);
-                    },
-                    (user_id, cb) => {
-                        //3.修改密码
-                        MysqlHelper.query(`
-                        UPDATE
-                        \`gpp\`.\`pt_user\`
-                        SET
-                        \`password\` = ?,
-                        WHERE \`id\` = ?;
-                        `, [newPassword, user_id], cb);
                     }
                 );
+            },
+            (user_id, cb) => {
+                //3.修改密码
+                MysqlHelper.query(`
+                UPDATE
+                \`gpp\`.\`pt_user\`
+                SET
+                \`password\` = ?,
+                WHERE \`id\` = ?;
+                `, [newPassword, user_id], cb);
             }
         ], cb);
 };
@@ -345,19 +345,19 @@ var resetMobileAccountPassword = function ({ mobile, vali_code, password }, cb) 
                             return cb(BusinessError.create(config.codes.equalPassword));
                         }
                         cb(undefined, user.id);
-                    },
-                    (user_id, cb) => {
-                        console.log(user_id,newPassword);
-                        //3.修改密码
-                        MysqlHelper.query(`
-                        UPDATE
-                        \`gpp\`.\`pt_user\`
-                        SET
-                        \`password\` = ?,
-                        WHERE \`id\` = ?;
-                        `, [newPassword, user_id], cb);
                     }
                 );
+            },
+            (user_id, cb) => {
+                console.log(user_id, newPassword);
+                //3.修改密码
+                MysqlHelper.query(`
+                UPDATE
+                \`gpp\`.\`pt_user\`
+                SET
+                \`password\` = ?,
+                WHERE \`id\` = ?;
+                `, [newPassword, user_id], cb);
             }
         ], cb);
 };
