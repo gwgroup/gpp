@@ -349,7 +349,6 @@ var resetMobileAccountPassword = function ({ mobile, vali_code, password }, cb) 
                 );
             },
             (user_id, cb) => {
-                console.log(user_id, newPassword);
                 //3.修改密码
                 MysqlHelper.query(`
                 UPDATE
