@@ -283,7 +283,7 @@ var resetEmailAccountPassword = function ({ email, vali_code, password }, cb) {
                 UPDATE
                 \`gpp\`.\`pt_user\`
                 SET
-                \`password\` = ?,
+                \`password\` = ?
                 WHERE \`id\` = ?;
                 `, [newPassword, user_id], cb);
             }
@@ -355,7 +355,7 @@ var resetMobileAccountPassword = function ({ mobile, vali_code, password }, cb) 
                 UPDATE
                 \`gpp\`.\`pt_user\`
                 SET
-                \`password\` = ?,
+                \`password\` = ?
                 WHERE \`id\` = ?;
                 `, [newPassword, user_id], cb);
             }
