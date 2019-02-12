@@ -360,8 +360,6 @@ var resetMobileAccountPassword = function ({ mobile, vali_code, password }, cb) 
             }
         ], cb);
 };
-
-
 module.exports = { login, regeditWithMobile, regeditWithEmail, sendValiSMS, sendValiEmail, resetEmailAccountPassword, resetMobileAccountPassword };
 // sendValiEmail({ email: 'newbreach@live.cn', ip: '203.94.45.68' }, (err, result) => {
 //     console.log(err, result);
