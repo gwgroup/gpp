@@ -7,8 +7,8 @@ var BusinessError = require('./business-error'),
     Redis = require('./redis'),
     MysqlHelper = require('./mysql-helper'),
     Email = require('./email'),
-    SMS = require('./sms');
-
+    SMS = require('./sms'),
+    Safe = require('./safe');
 /**
  * 生成验证码
  * @param {Number} radix 进制 默认10 
@@ -151,7 +151,7 @@ function PrefixInteger(num, n, char = '0') {
     return (Array(n).join(char) + num).slice(-n);
 }
 
-module.exports = { BusinessError, Statis, Redis, MysqlHelper, generateValiCode, getClientIp, generateTokenCode, getSha256CodeWith20, generateUUID, downloadFileWithBase64, dateFormat, dateFormatWithUTC, parseHtmlToText, Email, PrefixInteger, SMS };
+module.exports = { BusinessError, Statis, Redis, MysqlHelper, generateValiCode, getClientIp, generateTokenCode, getSha256CodeWith20, generateUUID, downloadFileWithBase64, dateFormat, dateFormatWithUTC, parseHtmlToText, Email, PrefixInteger, SMS, Safe };
 
 // //1.console.log(getSha256CodeWith20('123456'));
 // generateBatchNo((err, value) => {

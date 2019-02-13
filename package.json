@@ -8,6 +8,7 @@
   "dependencies": {
     "@alicloud/sms-sdk": "^1.1.6",
     "async": "^2.6.1",
+    "body-parser-xml": "^1.1.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
@@ -19,6 +20,8 @@
     "nodemailer": "^5.1.1",
     "nodemailer-smtp-transport": "^2.7.4",
     "redis": "^2.8.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "xml": "^1.0.1",
+    "xml-js": "^1.6.11"
   }
 }
