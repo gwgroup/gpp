@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var async = require('async');
 var accountService = require('../../services/account');
+var couponService = require('../../services/coupon');
 var weixinService = require('../../services/weixin');
 var util = require('../../utils/index');
 
@@ -15,6 +16,53 @@ router.post('/load', function (req, res, next) {
     res.send(JSON.stringify({ code: 1000, data: result }));
   });
 });
+
+/**
+ * 获取客户可用的优惠券
+ */
+router.post('/get_coupons', function (req, res, next) {
+  let user_id = req.token.user_id;
+  couponService.getCouponsWithUser(user_id, (err, result) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(JSON.stringify({ code: 1000, data: result }));
+  });
+});
+
+/**
+* 优惠券充值
+* 1.查询优惠券合法性
+* 2.入账
+*/
+router.post('/coupon_recharge', function (req, res, next) {
+  let { code } = req.body,
+    user_id = req.token.user_id,
+    ip = util.getClientIp(req),
+    money = 0,
+    tradeNo = undefined;
+  async.waterfall([
+    (cb) => {
+      couponService.useCoupon(code, user_id, (err, trade_no, m) => {
+        tradeNo = trade_no;
+        money = m;
+        cb(err, trade_no);
+      });
+    },
+    (tradeNo, cb) => {
+      accountService.confirmInAccount(tradeNo, cb);
+    }
+  ], (err) => {
+    if (err) {
+      next(err);
+    } else {
+      console.log(`优惠券入账成功! 单号:${tradeNo}, 金额:${money}`);
+      res.send(JSON.stringify({ code: 1000, data: { money, tradeNo } }));
+    }
+  });
+});
+
+
 
 /**
  * 微信充值
