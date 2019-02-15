@@ -1,6 +1,6 @@
 var redis = require("redis"),
     redisConfig = require('../config').redis,
-    expire = require('../config').redis_expire;
+    expire = redisConfig.redis_expire;
 var client = redis.createClient(redisConfig);
 client.on('connect', (arg1) => {
     console.debug('Redis Connect!');
