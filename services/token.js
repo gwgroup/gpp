@@ -36,7 +36,7 @@ var checkToken = function (token, cb) {
  * @param {String} token 
  */
 var delay = function (token) {
-    redis.flushExpire(`token_${token}`);
+    Redis.flushExpire(`token_${token}`);
 }
 
 module.exports = { checkToken, insertToken, delay };
