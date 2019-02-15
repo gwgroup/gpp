@@ -1,11 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var BusinessError = require('../../utils/index').BusinessError;
-var openUrls = ['/api/user/login', '/api/user/regedit', '/api/user/reset','/api/user/send_vali_sms','/api/user/send_vali_email','/api/user/regedit_with_mobile','/api/user/regedit_with_email','/api/user/reset_mobile_account_password','/api/user/reset_email_account_password'];
+var openUrls = ['/api/user/login', '/api/user/regedit', '/api/user/reset', '/api/user/send_vali_sms', '/api/user/send_vali_email', '/api/user/regedit_with_mobile', '/api/user/regedit_with_email', '/api/user/reset_mobile_account_password', '/api/user/reset_email_account_password'];
 var config = require('../../config');
 var CODES = config.codes;
 var tokenService = require('../../services/token');
 var userRouter = require('./user');
+var accountRouter = require('./account');
+var redPacketRouter = require('./red-packet');
 router.use(function (req, res, next) {
   if (openUrls.indexOf(req.originalUrl) != -1) {
     return next();
@@ -37,7 +39,8 @@ router.use(function (req, res, next) {
 });
 
 router.use('/user', userRouter);
-
+router.use('/account', accountRouter);
+router.use('/red-packet', redPacketRouter);
 router.use(function (err, req, res, next) {
   if (err instanceof BusinessError) {
     return res.send(err.toJsonString());

@@ -360,7 +360,35 @@ var resetMobileAccountPassword = function ({ mobile, vali_code, password }, cb) 
             }
         ], cb);
 };
-module.exports = { login, regeditWithMobile, regeditWithEmail, sendValiSMS, sendValiEmail, resetEmailAccountPassword, resetMobileAccountPassword };
+/**
+ * 加载用户数据
+ * @param {String} user_id 
+ * @param {Function} cb 
+ */
+function load(user_id, cb) {
+    MysqlHelper.query(`
+    SELECT
+    a.\`id\`,
+    a.\`display_name\`,
+    a.\`mobile\`,
+    a.\`email\`,
+    a.\`account_money\`,
+    a.\`create_time\`,
+    a.\`update_time\`
+    FROM
+    \`gpp\`.\`pt_user\` a
+    WHERE a.\`id\`=?
+    LIMIT 0, 1;
+    `,
+        [user_id],
+        (err, result) => {
+            if (err) {
+                return cb(err);
+            }
+            return cb(undefined, result[0]);
+        });
+}
+module.exports = { login, regeditWithMobile, regeditWithEmail, sendValiSMS, sendValiEmail, resetEmailAccountPassword, resetMobileAccountPassword, load };
 // sendValiEmail({ email: 'newbreach@live.cn', ip: '203.94.45.68' }, (err, result) => {
 //     console.log(err, result);
 // });
