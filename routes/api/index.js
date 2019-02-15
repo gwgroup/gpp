@@ -4,6 +4,7 @@ var BusinessError = require('../../utils/index').BusinessError;
 var openUrls = ['/api/user/login', '/api/user/regedit', '/api/user/reset', '/api/user/send_vali_sms', '/api/user/send_vali_email', '/api/user/regedit_with_mobile', '/api/user/regedit_with_email', '/api/user/reset_mobile_account_password', '/api/user/reset_email_account_password'];
 var config = require('../../config');
 var CODES = config.codes;
+const tokenExpire = config.expires.token;
 var tokenService = require('../../services/token');
 var userRouter = require('./user');
 var accountRouter = require('./account');
@@ -32,7 +33,7 @@ router.use(function (req, res, next) {
         req.token = tokenObject;
         next();
         //延时token
-        tokenService.delay(token);
+        tokenService.delay(token, tokenExpire);
       }
     });
   }

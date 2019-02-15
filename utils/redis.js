@@ -1,6 +1,5 @@
 var redis = require("redis"),
-    redisConfig = require('../config').redis,
-    expire = redisConfig.redis_expire;
+    redisConfig = require('../config').redis;
 var client = redis.createClient(redisConfig);
 client.on('connect', (arg1) => {
     console.debug('Redis Connect!');
@@ -29,7 +28,7 @@ var set = function (key, value, expire) {
  * @param {String} key 
  * @param {Function} ttl 
  */
-var flushExpire = function (key, ttl = expire) {
+var flushExpire = function (key, ttl) {
     client.expire(key, ttl);
 };
 /**
