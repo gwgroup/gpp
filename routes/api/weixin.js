@@ -2,10 +2,10 @@ var express = require('express');
 //var async = require('async');
 var router = express.Router();
 //var accountService = require('../services/account');
-// 微信支付回调
+// 微信认证回调
 router.all('/cb', function (req, res, next) {
-    console.log(req.body);
-    res.send('ok');
+    console.log(req.params);
+    res.send(req.params.echostr);
     //console.log(req.query, req.originalUrl, req.body);
     // var cbObj = req.body.xml,
     //     tradeNo = cbObj.out_trade_no;
