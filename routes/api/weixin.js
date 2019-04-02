@@ -1,11 +1,17 @@
 var express = require('express');
 //var async = require('async');
 var router = express.Router();
+var util=require('../../utils/index');
 //var accountService = require('../services/account');
 // 微信认证回调
 router.all('/cb', function (req, res, next) {
     console.log(req.query);
-    res.send(req.query.echostr);
+    if(util.Safe.checkSignature(req.query)){
+        res.send(req.query.echostr);
+    }else{
+        res.status(400).send('fail');
+    }
+   
     //console.log(req.query, req.originalUrl, req.body);
     // var cbObj = req.body.xml,
     //     tradeNo = cbObj.out_trade_no;
