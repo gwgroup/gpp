@@ -33,7 +33,7 @@ logger.token('remote-addr', function (req) {
 });
 app.use(logger('[:date[default]] :remote-addr :method :url HTTP/:http-version :status :res[content-length] - :response-time ms'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(bodyParser.xml({
   limit: '2MB',  

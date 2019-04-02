@@ -5,11 +5,21 @@ var util = require("../../utils/index");
 //var accountService = require("../services/account");
 // 微信认证回调
 router.all("/cb", function(req, res, next) {
-  console.log(req.query, res.body);
-  if (util.Safe.checkSignature(req.query)) {
+  //console.log(req.query, res.body);
+  if (!util.Safe.checkSignature(req.query)) {
+    res.status(400).send("fail");
+  }
+  if (req.method === "GET") {
     res.send(req.query.echostr);
   } else {
-    res.status(400).send("fail");
+    let data = [];
+    req.addListener("data", function(datachunk) {
+      data.push(datachunk);
+    });
+    req.addListener("end", function() {
+      console.log(data.join(""));
+      res.send("success");
+    });
   }
 });
 
