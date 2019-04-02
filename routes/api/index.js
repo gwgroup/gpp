@@ -8,6 +8,7 @@ var tokenService = require('../../services/token');
 var userRouter = require('./user');
 var accountRouter = require('./account');
 var redPacketRouter = require('./red-packet');
+var weixinRouter = require('./weixin');
 router.use(function (req, res, next) {
   if (openUrls.indexOf(req.originalUrl) != -1) {
     return next();
@@ -41,6 +42,7 @@ router.use(function (req, res, next) {
 router.use('/user', userRouter);
 router.use('/account', accountRouter);
 router.use('/red-packet', redPacketRouter);
+router.use('/weixin', weixinRouter);
 router.use(function (err, req, res, next) {
   if (err instanceof BusinessError) {
     return res.send(err.toJsonString());
