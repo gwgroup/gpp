@@ -7,23 +7,20 @@ var util = require("../../utils/index");
 router.get("/cb", function(req, res, next) {
   if (!util.Safe.checkSignature(req.query)) {
     res.status(400).send("fail");
-  }else{
+  } else {
     res.send(req.query.echostr);
   }
 });
-router.post('/cb',function(req,res,next){
-    console.log(1, req.query);
-    let data = [];
-    req.addListener("data", function(datachunk) {
-      console.log(5);
-      data.push(datachunk);
-    });
-    req.addListener("end", function() {
-      console.log(6);
-      req.body = data.join("");
-      console.log(req.body);
-      res.send("success");
-    });
+router.post("/cb", function(req, res, next) {
+  console.log(1, req.query);
+  var data = [];
+  req.addListener("data", function(datachunk) {
+    data.push(datachunk);
+  });
+  req.addListener("end", function() {
+    console.log(data.join(""));
+    res.send("success");
+  });
 });
 
 /**
