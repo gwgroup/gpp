@@ -2,7 +2,7 @@ var express = require("express");
 var async = require("async");
 var router = express.Router();
 var util = require("../../utils/index");
-//var accountService = require("../services/account");
+//var accountService = require('../services/account');
 // 微信认证回调
 router.get("/cb", function(req, res, next) {
   if (!util.Safe.checkSignature(req.query)) {
@@ -13,12 +13,12 @@ router.get("/cb", function(req, res, next) {
 });
 router.post("/cb", function(req, res, next) {
   console.log(1, req.query);
-  var data = [];
-  req.addListener("data", function(datachunk) {
-    data.push(datachunk);
+  req.rawData = "";
+  req.on("data", function(datachunk) {
+    req.rawData += datachunk;
   });
-  req.addListener("end", function() {
-    console.log(data.join(""));
+  req.on("end", function() {
+    console.log(req.rawData);
     res.send("success");
   });
 });
