@@ -2,6 +2,8 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+require('body-parser-xml')(bodyParser);
 var logger = require('morgan');
 var apiRouter = require('./routes/api');
 var app = express();
@@ -31,6 +33,14 @@ logger.token('remote-addr', function (req) {
 });
 app.use(logger('[:date[default]] :remote-addr :method :url HTTP/:http-version :status :res[content-length] - :response-time ms'));
 app.use(express.json());
+app.use(bodyParser.xml({
+  limit: '1MB',  
+  xmlParseOptions: {
+    normalize: false,    
+    normalizeTags: false,
+    explicitArray: false
+  }
+}));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
