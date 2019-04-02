@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var BusinessError = require('../../utils/index').BusinessError;
-var openUrls = ['/api/user/login', '/api/user/regedit', '/api/user/reset', '/api/user/send_vali_sms', '/api/user/send_vali_email', '/api/user/regedit_with_mobile', '/api/user/regedit_with_email', '/api/user/reset_mobile_account_password', '/api/user/reset_email_account_password','api/weixin/cb'];
+var openUrls = ['/api/user/login', '/api/user/regedit', '/api/user/reset', '/api/user/send_vali_sms', '/api/user/send_vali_email', '/api/user/regedit_with_mobile', '/api/user/regedit_with_email', '/api/user/reset_mobile_account_password', '/api/user/reset_email_account_password','/api/weixin/cb'];
 var config = require('../../config');
 var CODES = config.codes;
 var tokenService = require('../../services/token');
@@ -10,6 +10,7 @@ var accountRouter = require('./account');
 var redPacketRouter = require('./red-packet');
 var weixinRouter = require('./weixin');
 router.use(function (req, res, next) {
+  //console.log(req.originalUrl);
   if (openUrls.indexOf(req.originalUrl) != -1) {
     return next();
   }
