@@ -15,6 +15,7 @@ router.post("/cb", function(req, res, next) {
   console.log(1, req.query);
   req.rawData = "";
   req.on("data", function(datachunk) {
+    console.log(datachunk.toString());
     req.rawData += datachunk;
   });
   req.on("end", function() {
