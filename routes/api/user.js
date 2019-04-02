@@ -99,4 +99,5 @@ router.post('/reset_mobile_account_password', function (req, res, next) {
         res.send(JSON.stringify({ code: 1000 }));
     });
 });
+
 module.exports = router;
