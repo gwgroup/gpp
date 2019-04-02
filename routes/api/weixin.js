@@ -14,15 +14,14 @@ router.all("/cb", function(req, res, next) {
     res.send(req.query.echostr);
   } else {
     let data = [];
-    req
-      .on("data", function(datachunk) {
-        data.push(datachunk);
-      })
-      .on("end", function() {
-        req.body = data.join("");
-        console.log(req.body);
-        res.send("success");
-      });
+    req.addListener("data", function(datachunk) {
+      data.push(datachunk);
+    });
+    req.addListener("end", function() {
+      req.body = data.join("");
+      console.log(req.body);
+      res.send("success");
+    });
   }
 });
 
