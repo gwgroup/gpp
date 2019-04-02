@@ -70,4 +70,10 @@ var checkWeixinXML=function(xmlobj){
     return true;
 };
 
+// var checkSignature=function({signature,echostr,timestamp,nonce}){
+// let ary=['dreamer',timestamp,nonce];
+// ary.sort();
+
+// }
+
 module.exports = { generatePBKDF2, generateSalt, valiPBKDF2, generateValiCode, MD5,checkWeixinXML};
