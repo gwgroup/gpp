@@ -9,6 +9,7 @@ router.all("/cb", function(req, res, next) {
   if (!util.Safe.checkSignature(req.query)) {
     res.status(400).send("fail");
   }
+  console.log(req.method,req.body);
   if (req.method === "GET") {
     res.send(req.query.echostr);
   } else {
