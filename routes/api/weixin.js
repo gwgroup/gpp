@@ -4,8 +4,8 @@ var router = express.Router();
 //var accountService = require('../services/account');
 // 微信认证回调
 router.all('/cb', function (req, res, next) {
-    console.log(req.params);
-    res.send(req.params.echostr);
+    console.log(req.query);
+    res.send(req.query.echostr);
     //console.log(req.query, req.originalUrl, req.body);
     // var cbObj = req.body.xml,
     //     tradeNo = cbObj.out_trade_no;
