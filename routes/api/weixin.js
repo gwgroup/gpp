@@ -12,9 +12,9 @@ router.get("/cb", function(req, res, next) {
   }
 });
 router.post("/cb", function(req, res, next) {
-    //console.log(1, req.query);
-    console.log(req.rawData);
-    res.send("success");
+  //console.log(1, req.query);
+  console.log(req.rawData,req.body);
+  res.send("success");
 });
 
 /**
