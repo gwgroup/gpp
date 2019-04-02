@@ -12,16 +12,9 @@ router.get("/cb", function(req, res, next) {
   }
 });
 router.post("/cb", function(req, res, next) {
-  console.log(1, req.query);
-  req.rawData = "";
-  req.on("data", function(datachunk) {
-    console.log(datachunk.toString());
-    req.rawData += datachunk;
-  });
-  req.on("end", function() {
+    //console.log(1, req.query);
     console.log(req.rawData);
     res.send("success");
-  });
 });
 
 /**
