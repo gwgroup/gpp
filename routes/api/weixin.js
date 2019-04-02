@@ -8,19 +8,21 @@ router.all("/cb", function(req, res, next) {
   //console.log(req.query, res.body);
   if (!util.Safe.checkSignature(req.query)) {
     res.status(400).send("fail");
+    return;
   }
-  console.log(req.method,req.body);
   if (req.method === "GET") {
     res.send(req.query.echostr);
   } else {
     let data = [];
-    req.addListener("data", function(datachunk) {
-      data.push(datachunk);
-    });
-    req.addListener("end", function() {
-      console.log(data.join(""));
-      res.send("success");
-    });
+    req
+      .on("data", function(datachunk) {
+        data.push(datachunk);
+      })
+      .on("end", function() {
+        req.body = data.join("");
+        console.log(req.body);
+        res.send("success");
+      });
   }
 });
 
