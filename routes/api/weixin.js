@@ -3,7 +3,7 @@ var async = require("async");
 var router = express.Router();
 var util = require("../../utils/index");
 //var accountService = require('../services/account');
-// 微信认证回调
+// 微信服务器认证回调
 router.get("/cb", function(req, res, next) {
   if (!util.Safe.checkSignature(req.query)) {
     res.status(400).send("fail");
@@ -11,6 +11,7 @@ router.get("/cb", function(req, res, next) {
     res.send(req.query.echostr);
   }
 });
+//微信服务器消息
 router.post("/cb", function(req, res, next) {
   //console.log(1, req.query);
   console.log(req.rawData,req.body);
