@@ -1,9 +1,20 @@
 var Redis = require("./utils/index").Redis;
 var schedule = require("node-schedule");
 var async = require("async");
-var tasks = [];
 
 let weixinAccessTokenKey = "wx_access_token";
+
+/**
+ * 增加调度任务
+ * @param {String} name
+ * @param {String} cron
+ * @param {Function} handler
+ */
+var addJob = function(name, cron, handler) {
+  console.log("SCHEDULE ADD JOB", name, cron);
+  schedule.scheduleJob({ name, rule: cron }, handler);
+};
+
 /**
  * 获取微信TOKEN有效期，-2是不存在，-1是永久
  * @param {*} cb
@@ -13,36 +24,11 @@ function __getWeixinAccessTokenTtl(cb) {
 }
 
 /**
- * 启动调度
- */
-var run = function() {
-  console.log("1.初始化Schedule服务");
-  tasks.forEach(item => {
-    schedule.scheduleJob(item.name, item.cron, item.handler);
-    if (item.touchRun) {
-      item.handler();
-    }
-  });
-};
-
-/**
- * 增加调度任务
- * @param {String} name
- * @param {String} cron
- * @param {Function} handler
- */
-var addJob = function(name, cron, handler) {
-  schedule.scheduleJob({ name, rule: cron }, handler);
-};
-
-/**
  * 获取微信服务TOKEN
  */
 function __getWeixinAccessToken() {
   console.log(new Date().toLocaleString(), "REFRESH_WEIXIN_ACCESS_TOKEN");
 }
-
-module.exports = { schedule, run, addJob };
 
 async.waterfall(
   [
@@ -65,7 +51,7 @@ async.waterfall(
         let s = now.getSeconds();
         addJob(
           "REFRESH_WEIXIN_ACCESS_TOKEN",
-          `${s} ${m} */2 * * *`,
+          `${s} ${m} */1 * * *`,
           __getWeixinAccessToken
         );
       }, timeout);
@@ -77,3 +63,5 @@ async.waterfall(
     }
   }
 );
+
+module.exports = { schedule, run, addJob };
