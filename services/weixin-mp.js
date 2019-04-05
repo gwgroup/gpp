@@ -169,17 +169,17 @@ function weixinNetCheck(cb) {
 
 /**
  * 创建菜单
- * @param {Object} menus 
+ * @param {Object} menu
  * @param {Function} cb 
  */
-function createMenu(menus, cb) {
+function createMenu(menu, cb) {
   getWeixinAccessTokenWithRedis((err, obj) => {
     if (err) {
       return cb(err);
     }
     let tokenObj = JSON.parse(obj);
     let accessToken = tokenObj.access_token;
-    __requestPostWeixinMp(`https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${accessToken}`, JSON.stringify(menus), cb);
+    __requestPostWeixinMp(`https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${accessToken}`, JSON.stringify(menu), cb);
   });
 }
 
@@ -194,7 +194,7 @@ function getMenu(cb) {
     }
     let tokenObj = JSON.parse(obj);
     let accessToken = tokenObj.access_token;
-    __requestPostWeixinMp(`https://api.weixin.qq.com/cgi-bin/menu/get?access_token=${accessToken}`, JSON.stringify(menus), cb);
+    __requestGetWeixinMp(`https://api.weixin.qq.com/cgi-bin/menu/get?access_token=${accessToken}`, cb);
   });
 }
 
