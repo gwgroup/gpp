@@ -5,8 +5,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 require('body-parser-xml')(bodyParser);
 var logger = require('morgan');
-var apiRouter = require('./routes/api');
-var masterRouter = require('./routes/master');
+var apiRouter = require('./routes/api/index');
+var masterApiRouter = require('./routes/master_api/index');
 var app = express();
 var init = require('./init');
 //初始化批次单号
@@ -62,7 +62,7 @@ app.use(bodyParser.xml({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', apiRouter);
-app.use('/master', masterRouter);
+app.use('/master_api', masterApiRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
