@@ -58,7 +58,6 @@ function __startSchedule() {
         cb(undefined, timeout);
       },
       (timeout, cb) => {
-        //console.log(timeout);
         setTimeout(() => {
           __refreshWeixinAccessToken();
           let now = new Date();
@@ -101,6 +100,7 @@ function __requestGetWeixinMp(url, cb) {
     }
   });
 }
+
 /**
  * 微信 http Post请求
  * @param {String} url 
@@ -191,5 +191,4 @@ __startSchedule();
     "errcode": 40164,
     "errmsg": "invalid ip 58.35.36.173, not in whitelist"
 }
-
 */

@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 require('body-parser-xml')(bodyParser);
 var logger = require('morgan');
 var apiRouter = require('./routes/api');
+var masterRouter = require('./routes/master');
 var app = express();
 var init = require('./init');
 //初始化批次单号
@@ -47,21 +48,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(bodyParser.xml({
-  limit: '2MB',  
+  limit: '2MB',
   xmlParseOptions: {
-    normalize: false,    
+    normalize: false,
     normalizeTags: false,
     explicitArray: false
   },
-  verify: function(req, res, buf, encoding) {
-    if(buf && buf.length) {
+  verify: function (req, res, buf, encoding) {
+    if (buf && buf.length) {
       req.rawData = buf.toString(encoding || "utf8");
     }
   }
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', apiRouter);
-
+app.use('/master', masterRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

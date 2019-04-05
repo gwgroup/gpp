@@ -6,7 +6,7 @@ var schedule = require("node-schedule");
  * @param {Function} handler
  */
 var addJob = function (name, cron, handler) {
-  console.log("SCHEDULE ADD JOB", name, cron);
+  //console.log("SCHEDULE ADD JOB", name, cron);
   schedule.scheduleJob({ name, rule: cron }, handler);
 };
 

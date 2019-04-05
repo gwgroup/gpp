@@ -1,5 +1,5 @@
 var BusinessError = require('./business-error'),
-    Statis = require('./statis'),
+    System = require('./system'),
     HtmlParse = require('node-html-parser'),
     request = require('request'),
     Stream = require('stream'),
@@ -151,7 +151,7 @@ function PrefixInteger(num, n, char = '0') {
     return (Array(n).join(char) + num).slice(-n);
 }
 
-module.exports = { BusinessError, Statis, Redis, MysqlHelper, generateValiCode, getClientIp, generateTokenCode, getSha256CodeWith20, generateUUID, downloadFileWithBase64, dateFormat, dateFormatWithUTC, parseHtmlToText, Email, PrefixInteger, SMS, Safe };
+module.exports = { BusinessError, System, Redis, MysqlHelper, generateValiCode, getClientIp, generateTokenCode, getSha256CodeWith20, generateUUID, downloadFileWithBase64, dateFormat, dateFormatWithUTC, parseHtmlToText, Email, PrefixInteger, SMS, Safe };
 
 // //1.console.log(getSha256CodeWith20('123456'));
 // generateBatchNo((err, value) => {
