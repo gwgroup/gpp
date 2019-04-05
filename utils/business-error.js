@@ -21,5 +21,8 @@ class BusinessError extends Error {
   static getCode(name) {
     return codes[name];
   }
+  static custom(errorCode, errorMessage) {
+    return new BusinessError(errorCode, errorMessage);
+  }
 }
 module.exports = BusinessError;

@@ -2,9 +2,10 @@ var express = require("express");
 var async = require("async");
 var router = express.Router();
 var util = require("../../utils/index");
+var weixinMpService = require('../../services/weixin-mp');
 //var accountService = require('../services/account');
 // 微信服务器认证回调
-router.get("/cb", function(req, res, next) {
+router.get("/cb", function (req, res, next) {
   if (!util.Safe.checkSignature(req.query)) {
     res.status(400).send("fail");
   } else {
@@ -12,16 +13,16 @@ router.get("/cb", function(req, res, next) {
   }
 });
 //微信服务器消息
-router.post("/cb", function(req, res, next) {
+router.post("/cb", function (req, res, next) {
   //console.log(1, req.query);
-  console.log(req.rawData,req.body);
+  console.log(req.rawData, req.body);
   res.send("success");
 });
 
 /**
  * 支付回调
  */
-router.all("/pay_cb", function(req, res, next) {
+router.all("/pay_cb", function (req, res, next) {
   //   console.log(req.query, req.originalUrl, req.body);
   //   var cbObj = req.body.xml,
   //     tradeNo = cbObj.out_trade_no;
