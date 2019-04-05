@@ -39,7 +39,7 @@ router.use(function (req, res, next) {
 });
 router.use('/user', userRouter);
 router.use('/system', systemRouter);
-router.use('./weixin', weixinRouter);
+router.use('/weixin', weixinRouter);
 router.use(function (err, req, res, next) {
   if (err instanceof BusinessError) {
     return res.send(err.toJsonString());
