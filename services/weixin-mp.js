@@ -167,7 +167,38 @@ function weixinNetCheck(cb) {
   });
 }
 
-module.exports = { getWeixinAccessTokenWithRedis, getWeixinCbIps, weixinNetCheck };
+/**
+ * 创建菜单
+ * @param {Object} menus 
+ * @param {Function} cb 
+ */
+function createMenu(menus, cb) {
+  getWeixinAccessTokenWithRedis((err, obj) => {
+    if (err) {
+      return cb(err);
+    }
+    let tokenObj = JSON.parse(obj);
+    let accessToken = tokenObj.access_token;
+    __requestPostWeixinMp(`https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${accessToken}`, JSON.stringify(menus), cb);
+  });
+}
+
+/**
+ * 获取菜单
+ * @param {Function} cb 
+ */
+function getMenu(cb) {
+  getWeixinAccessTokenWithRedis((err, obj) => {
+    if (err) {
+      return cb(err);
+    }
+    let tokenObj = JSON.parse(obj);
+    let accessToken = tokenObj.access_token;
+    __requestPostWeixinMp(`https://api.weixin.qq.com/cgi-bin/menu/get?access_token=${accessToken}`, JSON.stringify(menus), cb);
+  });
+}
+
+module.exports = { getWeixinAccessTokenWithRedis, getWeixinCbIps, weixinNetCheck, createMenu, getMenu };
 
 __startSchedule();
 

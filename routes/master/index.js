@@ -7,6 +7,7 @@ var CODES = config.codes;
 var tokenService = require('../../services/master/token');
 var userRouter = require('./user');
 var systemRouter = require('./system');
+var weixinRouter = require('./weixin');
 router.use(function (req, res, next) {
   if (openUrls.indexOf(req.path) != -1) {
     return next();
@@ -38,6 +39,7 @@ router.use(function (req, res, next) {
 });
 router.use('/user', userRouter);
 router.use('/system', systemRouter);
+router.use('./weixin', weixinRouter);
 router.use(function (err, req, res, next) {
   if (err instanceof BusinessError) {
     return res.send(err.toJsonString());
