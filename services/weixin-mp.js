@@ -198,7 +198,198 @@ function getMenu(cb) {
   });
 }
 
-module.exports = { getWeixinAccessTokenWithRedis, getWeixinCbIps, weixinNetCheck, createMenu, getMenu };
+/**
+ * 创建标签
+ * @param {Object} tag  {   "tag" : {     "id" : 134,     "name" : "广东人"   } }
+ * @param {Function} cb 
+ */
+function createTag(tag, cb) {
+  getWeixinAccessTokenWithRedis((err, obj) => {
+    if (err) {
+      return cb(err);
+    }
+    let tokenObj = JSON.parse(obj);
+    let accessToken = tokenObj.access_token;
+    __requestPostWeixinMp(`https://api.weixin.qq.com/cgi-bin/tags/create?access_token=${accessToken}`, JSON.stringify(tag), cb);
+  });
+}
+
+/**
+ * 获取已经创建的标签
+ * @param {Function} cb 
+ */
+function getTags(cb) {
+  getWeixinAccessTokenWithRedis((err, obj) => {
+    if (err) {
+      return cb(err);
+    }
+    let tokenObj = JSON.parse(obj);
+    let accessToken = tokenObj.access_token;
+    __requestGetWeixinMp(`https://api.weixin.qq.com/cgi-bin/tags/get?access_token=${accessToken}`, cb);
+  });
+}
+
+/**
+ * 更新标签
+ * @param {Object} tag 更新标签 {   "tag" : {     "id" : 134,     "name" : "广东人"   } }
+ * @param {Function} cb 回调
+ */
+function updateTag(tag, cb) {
+  getWeixinAccessTokenWithRedis((err, obj) => {
+    if (err) {
+      return cb(err);
+    }
+    let tokenObj = JSON.parse(obj);
+    let accessToken = tokenObj.access_token;
+    __requestPostWeixinMp(`https://api.weixin.qq.com/cgi-bin/tags/update?access_token=${accessToken}`, JSON.stringify(tag), cb);
+  });
+}
+/**
+ * 移除标签
+ * @param {Object} tag  {   "tag":{        "id" : 134   } }
+ * @param {Function} cb 
+ */
+function removeTag(tag, cb) {
+  getWeixinAccessTokenWithRedis((err, obj) => {
+    if (err) {
+      return cb(err);
+    }
+    let tokenObj = JSON.parse(obj);
+    let accessToken = tokenObj.access_token;
+    __requestPostWeixinMp(`https://api.weixin.qq.com/cgi-bin/tags/delete?access_token=${accessToken}`, JSON.stringify(tag), cb);
+  });
+}
+
+/**
+ * 获取标签下粉丝列表
+ * @param {Object} param  {   "tagid" : 134,   "next_openid":""//第一个拉取的OPENID，不填默认从头开始拉取 }
+ * @param {Function} cb 
+ */
+function getFansWithTag(param, cb) {
+  getWeixinAccessTokenWithRedis((err, obj) => {
+    if (err) {
+      return cb(err);
+    }
+    let tokenObj = JSON.parse(obj);
+    let accessToken = tokenObj.access_token;
+    __requestPostWeixinMp(`https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token=${accessToken}`, JSON.stringify(param), cb);
+  });
+}
+
+/**
+ * 批量用户绑定标签
+ * @param {Object} param {"openid_list":["ocYxcuAEy30bX0NXmGn4ypqx3tI0","ocYxcuBt0mRugKZ7tGAHPnUaOW7Y"],"tagid":134}
+ * @param {Function} cb 
+ */
+function batchUserBindTag(param, cb) {
+  getWeixinAccessTokenWithRedis((err, obj) => {
+    if (err) {
+      return cb(err);
+    }
+    let tokenObj = JSON.parse(obj);
+    let accessToken = tokenObj.access_token;
+    __requestPostWeixinMp(`https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=${accessToken}`, JSON.stringify(param), cb);
+  });
+}
+
+/**
+ * 批量用户解绑标签
+ * @param {Object} param {"openid_list":["ocYxcuAEy30bX0NXmGn4ypqx3tI0","ocYxcuBt0mRugKZ7tGAHPnUaOW7Y"],"tagid":134}
+ * @param {Function} cb 
+ */
+function batchUserUnbindTag(param, cb) {
+  getWeixinAccessTokenWithRedis((err, obj) => {
+    if (err) {
+      return cb(err);
+    }
+    let tokenObj = JSON.parse(obj);
+    let accessToken = tokenObj.access_token;
+    __requestPostWeixinMp(`https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=${accessToken}`, JSON.stringify(param), cb);
+  });
+}
+/**
+ * 获取用户的所有标签
+ * @param {Object} param {"openid":"ocYxcuBt0mRugKZ7tGAHPnUaOW7Y"}
+ * @param {Function} cb 
+ */
+function getTagsWithUser(param, cb) {
+  getWeixinAccessTokenWithRedis((err, obj) => {
+    if (err) {
+      return cb(err);
+    }
+    let tokenObj = JSON.parse(obj);
+    let accessToken = tokenObj.access_token;
+    __requestPostWeixinMp(`https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token=${accessToken}`, JSON.stringify(param), cb);
+  });
+}
+
+/**
+ * 获取用户信息
+ * @param {String} openid 
+ * @param {Function} cb 
+ */
+function getUserInfo(openid, cb) {
+  getWeixinAccessTokenWithRedis((err, obj) => {
+    if (err) {
+      return cb(err);
+    }
+    let tokenObj = JSON.parse(obj);
+    let accessToken = tokenObj.access_token;
+    __requestGetWeixinMp(`https://api.weixin.qq.com/cgi-bin/user/info?access_token=${accessToken}&openid=${openid}&lang=zh_CN`, cb);
+  });
+}
+
+/**
+ * 批量获取用户信息
+ * @param {Object} param {"user_list": [{"openid": "otvxTs4dckWG7imySrJd6jSi0CWE", "lang": "zh_CN"}, {"openid": "otvxTs_JZ6SEiP0imdhpi50fuSZg", "lang": "zh_CN"}]}
+ * @param {Function} cb 
+ */
+function batchGetUserInfo(param,cb){
+  getWeixinAccessTokenWithRedis((err, obj) => {
+    if (err) {
+      return cb(err);
+    }
+    let tokenObj = JSON.parse(obj);
+    let accessToken = tokenObj.access_token;
+    __requestPostWeixinMp(`https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=${accessToken}`, JSON.stringify(param), cb);
+  });
+}
+
+/**
+ * 获取关注公众号的所有用户OPENID
+ * @param {String} next_openid 
+ * @param {Function} cb 
+ */
+function getFollowOpenids(next_openid,cb){
+  getWeixinAccessTokenWithRedis((err, obj) => {
+    if (err) {
+      return cb(err);
+    }
+    let tokenObj = JSON.parse(obj);
+    let accessToken = tokenObj.access_token;
+    __requestGetWeixinMp(`https://api.weixin.qq.com/cgi-bin/user/get?access_token=${accessToken}&next_openid=${next_openid}`, cb);
+  });
+}
+
+
+module.exports = {
+  getWeixinAccessTokenWithRedis,
+  getWeixinCbIps,
+  weixinNetCheck,
+  createMenu,
+  getMenu,
+  createTag,
+  getTags,
+  updateTag,
+  removeTag,
+  getFansWithTag,
+  batchUserBindTag,
+  batchUserUnbindTag,
+  getTagsWithUser,
+  getUserInfo,
+  batchGetUserInfo,
+  getFollowOpenids
+};
 
 __startSchedule();
 
