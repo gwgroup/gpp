@@ -200,7 +200,7 @@ function getMenu(cb) {
 
 /**
  * 创建标签
- * @param {Object} tag  {   "tag" : {     "id" : 134,     "name" : "广东人"   } }
+ * @param {Object} tag  {   "tag" : {     "name" : "广东人"   } }
  * @param {Function} cb 
  */
 function createTag(tag, cb) {
